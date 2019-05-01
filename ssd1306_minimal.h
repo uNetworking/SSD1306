@@ -1,7 +1,7 @@
 #ifndef SSD1306_MINIMAL_H
 #define SSD1306_MINIMAL_H
 
-unsigned char framebuffer[1024];
+unsigned char SSD1306_MINIMAL_framebuffer[1024];
 #define SSD1306_MINIMAL_SLAVE_ADDR 0x3c
 
 void SSD1306_MINIMAL_command(unsigned char command) {
@@ -13,7 +13,7 @@ void SSD1306_MINIMAL_command(unsigned char command) {
 
 /* Transfers the entire framebuffer in 64 I2C data messages */
 void SSD1306_MINIMAL_transferFramebuffer() {
-  unsigned char *p = framebuffer;
+  unsigned char *p = SSD1306_MINIMAL_framebuffer;
   for (int i = 0; i < 64; i++) {
         I2C_WRAPPER_beginTransmission(SSD1306_MINIMAL_SLAVE_ADDR);
         I2C_WRAPPER_write(0x40);
@@ -29,7 +29,7 @@ void SSD1306_MINIMAL_transferFramebuffer() {
 void SSD1306_MINIMAL_setPixel(unsigned int x, unsigned int y) {
   x &= 0x7f;
   y &= 0x3f;
-  framebuffer[((y & 0xf8) << 4) + x] |= 1 << (y & 7);
+  SSD1306_MINIMAL_framebuffer[((y & 0xf8) << 4) + x] |= 1 << (y & 7);
 }
 
 void SSD1306_MINIMAL_init() {
