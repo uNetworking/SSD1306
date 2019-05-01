@@ -29,7 +29,7 @@ void setup() {
 void loop() {
   /* Clear it */
   for (int i = 0; i < 1024; i++) {
-    framebuffer[i] = 0;
+    SSD1306_MINIMAL_framebuffer[i] = 0;
   }
   
   /* Put a pixel in origo */
