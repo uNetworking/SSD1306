@@ -32,8 +32,29 @@ void loop() {
     SSD1306_MINIMAL_framebuffer[i] = 0;
   }
   
-  /* Put a pixel in origo */
-  SSD1306_MINIMAL_setPixel(0, 0);
+  const int height = 64;
+  const int width = 128;
+  const int max = 15;
+
+  /* Let's draw the mandelbrot set on screen */
+  for (int row = 0; row < height; row++) {
+    for (int col = 0; col < width; col++) {
+      float c_re = (col - width / 2.0) * 4.0 / width;
+      float c_im = (row - height / 2.0) * 4.0 / width;
+      float x = 0, y = 0;
+      int iteration = 0;
+      while (x * x + y * y <= 4 && iteration < max) {
+          float x_new = x * x - y * y + c_re;
+          y = 2 * x * y + c_im;
+          x = x_new;
+          iteration++;
+      }
+      if (iteration == max) {
+        /* This is where we actually set a pixel */
+        SSD1306_MINIMAL_setPixel(-col - 30, row);
+      }
+    }
+  }
   
   /* Transfer framebuffer to device */
   SSD1306_MINIMAL_transferFramebuffer();
